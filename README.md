@@ -21,3 +21,5 @@ Untuk menggunakan Whatsapp Blast Text menggunakan repository yang diberikan, iku
 7. Klik tombol "Kirim Pesan" atau "Send Message" untuk mengirim pesan. Anda akan melihat tanggapan dari layanan dalam kotak teks "Response".
 
 Pastikan Anda telah mengikuti instruksi dengan benar dan memasukkan informasi yang diperlukan dengan tepat untuk menggunakan Whatsapp Blast Text melalui aplikasi ini.
+
+demo: https://codepen.io/Cloud-Dark-the-selector/pen/eYXrbag
