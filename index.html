@@ -1,0 +1,100 @@
+
+<head>
+  <title>>Blast Pesan Text by WACONSOLE</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://buunguyen.github.io/topbar/topbar.min.js"></script>
+</head>
+
+<body>
+  <div class="container mt-5">
+    <center>
+      <h1>Blast Pesan Text by WACONSOLE</h1>
+    </center>
+    <div class="form-group">
+      <label for="appkey">App Key</label>
+      <input id="appkey" type="text" class="form-control" placeholder="Masukkan App Key">
+    </div>
+    <div class="form-group">
+      <label for="authkey">Auth Key</label>
+      <input id="authkey" type="text" class="form-control" placeholder="Masukkan Auth Key">
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="phoneNumbers">Nomor Telepon (pisahkan dengan baris baru)</label>
+          <textarea id="phoneNumbers" class="form-control" rows="5" placeholder="Masukkan nomor telepon"></textarea>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="message">Pesan</label>
+          <textarea id="message" class="form-control" rows="5" placeholder="Masukkan pesan"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="text-right">
+      <button onclick="kirimPesan()" class="btn btn-block btn-primary">Kirim Pesan</button>
+    </div>
+    <div class="form-group mt-3">
+      <label for="response">Respons Pesan</label>
+      <textarea id="response" class="form-control" rows="20" placeholder="Respons pesan" readonly></textarea>
+    </div>
+  </div>
+  <script>
+    topbar.config({
+    autoRun      : false, 
+    barThickness : 5,
+    barColors    : {
+      '0'        : 'rgba(26,  188, 156, .7)',
+      '.3'       : 'rgba(41,  128, 185, .7)',
+      '1.0'      : 'rgba(231, 76,  60,  .7)'
+    },
+    shadowBlur   : 5,
+    shadowColor  : 'rgba(0, 0, 0, .5)',
+    className    : 'topbar',
+  })
+
+
+ function kirimPesan() {
+      var phoneNumbers = document.getElementById("phoneNumbers").value;
+      var message = document.getElementById("message").value;
+      var appkey = document.getElementById("appkey").value;
+      var authkey = document.getElementById("authkey").value;
+
+      // Mengirim curl ke API untuk setiap nomor telepon
+      var numbers = phoneNumbers.split('\n');
+      numbers.forEach(function(number) {
+        if (number.trim() !== '') {
+          var payload = {
+            appkey: appkey,
+            authkey: authkey,
+            to: number.trim(),
+            message: message
+          };
+
+          $.ajax({
+            topbar.show()
+            url: 'https://waconsole.apipedia.id/api/create-message',
+            type: 'POST',
+            data: JSON.stringify(payload),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function(response) {
+              topbar.hide()
+              console.log('Pesan terkirim ke ' + number.trim());
+              var responseTextarea = document.getElementById("response");
+              responseTextarea.value += JSON.stringify(response) + '\n';
+            },
+            error: function(error) {
+              topbar.hide()
+              console.error('Gagal mengirim pesan ke ' + number.trim());
+              var responseTextarea = document.getElementById("response");
+              responseTextarea.value += JSON.stringify(error) + '\n';
+            }
+          });
+        }
+      });
+    }
+}
+  </script>
