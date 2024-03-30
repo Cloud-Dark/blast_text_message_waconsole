@@ -61,7 +61,7 @@
       var message = document.getElementById("message").value;
       var appkey = document.getElementById("appkey").value;
       var authkey = document.getElementById("authkey").value;
-
+      topbar.show()
       // Mengirim curl ke API untuk setiap nomor telepon
       var numbers = phoneNumbers.split('\n');
       numbers.forEach(function(number) {
@@ -74,7 +74,7 @@
           };
 
           $.ajax({
-            topbar.show()
+
             url: 'https://waconsole.apipedia.id/api/create-message',
             type: 'POST',
             data: JSON.stringify(payload),
@@ -96,5 +96,4 @@
         }
       });
     }
-}
   </script>
